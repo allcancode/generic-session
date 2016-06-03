@@ -26,7 +26,7 @@ generic-session
 
 Generic session middleware for koa, easy use with custom stores such as [redis](https://github.com/koajs/koa-redis) or [mongo](https://github.com/freakycue/koa-generic-session-mongo), supports defer session getter. different from [koa-session](https://github.com/koajs/session)(it is cookie session).
 
-This middleware will only set a cookie when a session is manually set. Each time the session is modified (and only when the is session modified), it will reset the cookie and session.
+This middleware will only set a cookie when a session is manually set. Each time the session is modified (and only when the session is modified), it will reset the cookie and session.
 
 You can use the rolling sessions that will reset the cookie and session for every request which touch the session.
 
@@ -54,6 +54,9 @@ app.use(function *() {
   case '/remove':
     remove.call(this);
     break;
+  case '/regenerate':
+    yield regenerate.call(this);
+    break;
   }
 });
 
@@ -69,12 +72,19 @@ function remove() {
   this.body = 0;
 }
 
+function *regenerate() {
+  get.call(this);
+  yield this.regenerateSession();
+  get.call(this);
+}
+
 app.listen(8080);
 ```
 
 * After adding session middleware, you can use `this.session` to set or get the sessions.
 * Setting `this.session = null;` will destroy this session.
 * Altering `this.session.cookie` changes the cookie options of this user. Also you can use the cookie options in session the store. Use for example `cookie.maxage` as the session store's ttl.
+* Calling `this.regenerateSession` will destroy any existing session and generate a new, empty one in its place. The new session will have a different ID.
 
 ### Options
 
@@ -89,6 +99,10 @@ app.listen(8080);
  * `defer`: defers get session, only generate a session when you use it through `var session = yield this.session;`, defaults to `false`
  * `allowEmpty`: allow generation of empty sessions
  * `errorHandler(err, type, ctx)`: `Store.get` and `Store.set` will throw in some situation, use `errorHandle` to handle these errors by yourself. Default will throw.
+ * `reconnectTimeout`: When store is disconnected, don't throw `store unavailable` error immediately, wait `reconnectTimeout` to reconnect, default is `10s`.
+ * `sessionIdStore`: object with get, set, reset methods for passing session id throw requests.
+ * `valid`: valid(ctx, session), valid session value before use it
+ * `beforeSave`: beforeSave(ctx, session), hook before save session
 
 * Store can be any Object that has the methods `set`, `get`, `destroy` like  [MemoryStore](https://github.com/koajs/koa-session/blob/master/lib/store.js).
 * cookie defaulting to
@@ -107,8 +121,13 @@ For a full list of cookie options see [expressjs/cookies](https://github.com/exp
 
 if you set`cookie.maxage` to `null`, meaning no "expires" parameter is set so the cookie becomes a browser-session cookie. When the user closes the browser the cookie (and session) will be removed.
 
-Notice that `ttl` is different from `cookie.maxage`, `ttl` set the expire time of sessionStore. So if you set `cookie.maxage = null`, and `ttl=ms('1d')`, the session will expired after one day, but the cookie will destory when the user cloese the browser.
+Notice that `ttl` is different from `cookie.maxage`, `ttl` set the expire time of sessionStore. So if you set `cookie.maxage = null`, and `ttl=ms('1d')`, the session will expired after one day, but the cookie will destroy when the user closes the browser.
 And mostly you can just ignore `options.ttl`, `koa-generic-session` will parse `cookie.maxage` as the tll.
+
+## Hooks
+
+- `valid()`: valid session value before use it
+- `beforeSave()`: hook before save session
 
 ## Session Store
 
@@ -116,7 +135,7 @@ You can use any other store to replace the default MemoryStore, it just needs to
 
 * `get(sid)`: get session object by sid
 * `set(sid, sess, ttl)`: set session object for sid, with a ttl (in ms)
-* `destroy(sid)`: destory session for sid
+* `destroy(sid)`: destroy session for sid
 
 the api needs to return a Promise, Thunk or generator.
 
@@ -130,6 +149,8 @@ And use these events to report the store's status.
 - [koa-redis](https://github.com/koajs/koa-redis) to store your session data with redis.
 - [koa-mysql-session](https://github.com/tb01923/koa-mysql-session) to store your session data with MySQL.
 - [koa-generic-session-mongo](https://github.com/freakycue/koa-generic-session-mongo) to store your session data with MongoDB.
+- [koa-pg-session](https://github.com/TMiguelT/koa-pg-session) to store your session data with PostgreSQL.
+- [koa-generic-session-rethinkdb](https://github.com/KualiCo/koa-generic-session-rethinkdb) to store your session data with ReThinkDB.
 
 
 ## Licences

@@ -1,11 +1,46 @@
 
-1.6.0 / 2015-01-16 
+1.10.1 / 2015-12-15 
+==================
+
+  * feat: ctx.session as a setter/getter
+
+1.10.0 / 2015-11-15
+==================
+
+  * feat: support valid/beforeSave hooks
+
+1.9.2 / 2015-08-26
+==================
+
+  * fix: support custom cookie options
+
+1.9.1 / 2015-08-23
+==================
+
+  * Fix typo of 'available'
+
+1.9.0 / 2015-06-05
+==================
+
+  * Added session id storage option to override session id store logic.
+
+1.8.0 / 2015-03-15
+==================
+
+  * feat: support reconnectTimeout
+
+1.7.0 / 2015-03-01
+==================
+
+  * Add support for regenerating sessions.
+
+1.6.0 / 2015-01-16
 ==================
 
   * Merge pull request #39 from rfink/sess_id_optional_check
   * Allow a forced session id that is not available in the cookie
 
-1.5.0 / 2015-01-07 
+1.5.0 / 2015-01-07
 ==================
 
   * Merge pull request #37 from rfink/session_id_context

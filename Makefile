@@ -8,7 +8,7 @@ install:
 
 test:
 	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
-		--harmony-generators \
+		--harmony\
 		--reporter $(REPORTER) \
 		--timeout $(TIMEOUT) \
 		--require should \
@@ -38,7 +38,7 @@ test-travis:
 		$(TESTS)
 
 autod:
-	@./node_modules/.bin/autod -w -e example --prefix=~ --keep=supertest,debug
+	@./node_modules/.bin/autod -w -e example --prefix=~ --keep=supertest,debug, --semver=koa@1
 	@$(MAKE) install
 
 .PHONY: test
