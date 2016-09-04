@@ -1,5 +1,30 @@
 
-1.10.1 / 2015-12-15 
+1.11.3 / 2016-07-24
+==================
+
+  * fix: always refresh session (#95)
+
+1.11.2 / 2016-07-12
+==================
+
+  * fix: npm pack should not include test dir (#92)
+
+1.11.1 / 2016-06-23
+==================
+
+  * fix: make sure ctx.session exists when cookie.path = '/' (#91)
+
+1.11.0 / 2016-06-20
+==================
+
+  * Add support for overriding session save conditions per request (#89)
+
+1.10.2 / 2016-03-23
+==================
+
+  * fix: check if session exits
+
+1.10.1 / 2015-12-15
 ==================
 
   * feat: ctx.session as a setter/getter
