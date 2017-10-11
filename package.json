@@ -7,9 +7,9 @@
   "engines": {
     "node": ">= 6.0.0"
   },
-  "main": "lib/session",
+  "main": "src/session",
   "files": [
-    "lib"
+    "src"
   ],
   "keywords": [
     "koa",
@@ -38,8 +38,5 @@
     "pedding": "^1.0.0",
     "should": "^11.2.1",
     "supertest": "^3.0.0"
-  },
-  "scripts": {
-    "prepublish": "make build"
   }
 }
