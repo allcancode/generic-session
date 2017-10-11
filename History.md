@@ -1,4 +1,27 @@
 
+2.0.0 / 2017-07-11
+==================
+
+* Refactor to koa 2 - Supports node 6.x and 7.x (#123)
+
+1.11.6 / 2017-06-12
+==================
+
+* fix: cookie options may be changed
+
+1.11.5 / 2017-01-16
+==================
+
+  * fix: store use options.maxAge (#112)
+
+1.11.4 / 2016-12-01
+==================
+
+  * docs: maxage => maxAge
+  * fix: maxage => maxAge (#107)
+  * update default cookie maxage in readme (#84)
+  * add koa-generic-session-sequelize session store (#103)
+
 1.11.3 / 2016-07-24
 ==================
 
