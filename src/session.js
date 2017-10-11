@@ -283,7 +283,7 @@ module.exports = function(options = {}) {
 
     //update session
     try {
-      await store.set(id, session)
+      await store.set(id, session, ctx)
       sessionIdStore.set.call(ctx, id, session)
       debug('saved')
     } catch (err) {

@@ -51,7 +51,7 @@ class Store extends EventEmitter {
     return data
   }
 
-  async set(sid, sess) {
+  async set(sid, sess, ctx) {
     let ttl = this.options.ttl
     if (!ttl) {
       const maxAge = sess.cookie && sess.cookie.maxAge
@@ -66,7 +66,7 @@ class Store extends EventEmitter {
 
     sid = this.options.prefix + sid
     debug('SET key: %s, value: %s, ttl: %d', sid, sess, ttl)
-    await this.client.set(sid, sess, ttl)
+    await this.client.set(sid, sess, ttl, ctx)
     debug('SET complete')
   }
 
